@@ -11,8 +11,4 @@
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectRootManager" version="2" />
-  <component name="SshConsoleOptionsProvider">
-    <option name="myEncoding" value="ISO-8859-1" />
-    <option name="myConnectionType" value="NONE" />
-  </component>
 </project>

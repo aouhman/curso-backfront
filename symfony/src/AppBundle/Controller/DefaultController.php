@@ -8,9 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends Controller
 {
-    /**
-     * @Route("/", name="homepage")
-     */
+
     public function indexAction(Request $request)
     {
         // replace this example code with whatever you need
@@ -19,10 +17,7 @@ class DefaultController extends Controller
         ]);
     }
 
-    /**
-     * @Route("/default", name="default")
-     */
-    public function defaultAction()
+    public function testAction()
     {
      echo "Bonjour tout le monde Voila Symfony 3";
         die();

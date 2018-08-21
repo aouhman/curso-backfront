@@ -1,0 +1,10 @@
+default_index:
+   path: /index
+   defaults: { _controller: "AppBundle:Default:index" }
+   methods: GET
+
+default_test:
+   path: /test
+   defaults: { _controller: "AppBundle:Default:test" }
+   methods: GET
+
