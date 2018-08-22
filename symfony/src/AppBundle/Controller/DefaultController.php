@@ -22,40 +22,40 @@ class DefaultController extends Controller
 
     public function testAction(Request $request)
     {
-     $token =  $request->get("authrization",null);
+        $token = $request->get("authorization", null);
         $helpers = $this->get(Helpers::class);
+        $jwt_auth = $this->get(JwtAuth::class);
 
-        if($token){
-        $em = $this->getDoctrine()->getManager();
-        $userRepo = $em->getRepository("BackendBundle:User");
-        $users = $userRepo->findAll();
-
-         return $helpers->json(array(
-             'status' =>  'success',
-             'users'  =>  $users
-         ));
-     }else{
+        if ($token && $jwt_auth->checkToken($token)) {
+            $em = $this->getDoctrine()->getManager();
+            $userRepo = $em->getRepository("BackendBundle:User");
+            $users = $userRepo->findAll();
+            return $helpers->json(array(
+                'status' => 'success',
+                'users' => $users
+            ));
+        } else {
             return $helpers->json(array(
                 'status' => 'error',
                 'code' => 400,
                 'data' => 'authentification non valide '
             ));
-     }
+        }
 
     }
 
     public function loginAction(Request $request)
     {
-        $helpers =  $this->get(Helpers::class);
-        $json = $request->get("json",null);
+        $helpers = $this->get(Helpers::class);
+        $json = $request->get("json", null);
 
 
         $data = array(
             'status' => 'error',
-             'data'  => 'Send json via post !!'
+            'data' => 'Send json via post !!'
         );
 
-        if($json != null){
+        if ($json) {
             //
             $params = json_decode($json);
             $email = (isset($params->email)) ? $params->email : null;
@@ -64,23 +64,23 @@ class DefaultController extends Controller
 
             $emailConstraint = new Assert\Email();
             $emailConstraint->message = "Cet email n'est pas valide";
-            $validate_email = $this->get('validator')->validate($email,$emailConstraint);
+            $validate_email = $this->get('validator')->validate($email, $emailConstraint);
 
 
-            if( $email && count($validate_email) == 0 && $password){
+            if ($email && count($validate_email) == 0 && $password) {
 
                 $jwt_auth = $this->get(JwtAuth::class);
 
-                if($getHash == null || $getHash == false){
-                    $signup =  $jwt_auth->signup($email,$password);
-                }else{
-                    $signup =  $jwt_auth->signup($email,$password,true);
+                if (!$getHash) {
+                    $signup = $jwt_auth->signup($email, $password);
+                } else {
+                    $signup = $jwt_auth->signup($email, $password, true);
                 }
                 return $this->json($signup);
-            }else{
+            } else {
                 $data = array(
                     'status' => 'error',
-                    'data'   => 'Email ou password incorrect'
+                    'data' => 'Email ou password incorrect'
 
                 );
             }

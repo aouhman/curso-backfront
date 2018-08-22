@@ -17,7 +17,7 @@ class JwtAuth{
     public function __construct($manager)
     {
         $this->manager = $manager;
-        $this->key = "abdssasatetst123";
+        $this->key = "abdssasatetst123UnexpectedValueExceptionUnexpectedValueException";
     }
 
     public function signup($email,$password,$getHash=null){
@@ -59,6 +59,11 @@ class JwtAuth{
         return $data;
     }
 
+    /**
+     * @param string $jwt var $JWT représenter la valeur de token déja passer en parametre pour recuprer l'object
+     * @param bool   $getIdentity pour recuprer object connecter a
+     **@return bool|object
+     */
     public function checkToken($jwt,$getIdentity = false ){
         $auth = false;
       try{
@@ -68,10 +73,17 @@ class JwtAuth{
       }catch(\DomainException $e){
          $auth = false;
       }
-        if(is_object($decoded) && isset($decoded->sub)){
+
+        if(isset($decoded) && is_object($decoded) && isset($decoded->sub)){
             $auth = true;
         }else{
             $auth = false;
+        }
+        if(!$getIdentity){
+            return $auth;
+        }else{
+
+            return $decoded;
         }
     }
 
