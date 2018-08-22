@@ -1,0 +1,11 @@
+task_new:
+   path: /new
+   defaults: { _controller: "AppBundle:Task:new" }
+   methods: POST
+
+task_edit:
+   path: /edit
+   defaults: { _controller: "AppBundle:Task:edit" }
+   methods: POST
+
+
