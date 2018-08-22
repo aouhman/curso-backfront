@@ -1,15 +1,8 @@
-default_index:
-   path: /index
-   defaults: { _controller: "AppBundle:Default:index" }
-   methods: GET
+app_default:
+   resource: "@AppBundle/Resources/config/routing/default.yml"
+   prefix: /
 
-default_test:
-   path: /test
-   defaults: { _controller: "AppBundle:Default:test" }
-   methods: POST
-
-default_login:
-   path: /login
-   defaults: { _controller: "AppBundle:Default:login" }
-   methods: POST
+app_user:
+   resource: "@AppBundle/Resources/config/routing/user.yml"
+   prefix: /user
 
