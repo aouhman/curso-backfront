@@ -1,4 +1,5 @@
 default_index:
    path: /
    defaults: { _controller: "BackendBundle:Default:index"}
-   methods: GET
+   methods: POST
+

@@ -12,12 +12,13 @@ class DefaultController extends Controller
         $userRepo = $em->getRepository('BackendBundle:User');
         $users = $userRepo->findAll();
         $helpers =  $this->get(Helpers::class);
-        $helpers->holaMundo();die;
-        return $this->json(array(
+        return $helpers->json(array(
                 'status' =>  'success',
-                'users'  =>   $users[0]->getName()
+                'users'  =>   $users
             )
         );
+
+
   //      return $this->render('@Backend/Default/index.html.twig');
 
     }
