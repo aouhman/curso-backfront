@@ -17,9 +17,10 @@ class JwtAuth{
     public function __construct($manager)
     {
         $this->manager = $manager;
+        $this->key = "abdssasatetst123";
     }
 
-    public function signup($email,$password){
+    public function signup($email,$password,$getHash=null){
 
         $user =  $this->manager->getRepository('BackendBundle:User')->findOneBy(array(
                               "email"    => $email,
@@ -41,11 +42,14 @@ class JwtAuth{
                "ext" => time() + (7*24*60*60),
              );
 
-             $jwt = JWT::encode($token,$key);
-              $data = array(
-                  "user"=>$user,
-                   'status' => 'success'
-              );
+              $jwt = JWT::encode($token,$this->key,'HS256');
+              $decoded = JWT::decode($jwt,$this->key,array('HS256'));
+              if(!$getHash){
+                  $data = $jwt;
+              }else{
+                  $data = $decoded;
+              }
+
          } else{
              $data = array(
                  "data"=>'Login failed!!',
@@ -53,6 +57,22 @@ class JwtAuth{
              );
          }
         return $data;
+    }
+
+    public function checkToken($jwt,$getIdentity = false ){
+        $auth = false;
+      try{
+        $decoded = JWT::decode($jwt,$this->key,array('HS256'));
+      }catch (\UnexpectedValueException $e){
+         $auth = false;
+      }catch(\DomainException $e){
+         $auth = false;
+      }
+        if(is_object($decoded) && isset($decoded->sub)){
+            $auth = true;
+        }else{
+            $auth = false;
+        }
     }
 
 

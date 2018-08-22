@@ -20,10 +20,28 @@ class DefaultController extends Controller
         ]);
     }
 
-    public function testAction()
+    public function testAction(Request $request)
     {
-     echo "Bonjour tout le monde Voila Symfony 3";
-        die();
+     $token =  $request->get("authrization",null);
+        $helpers = $this->get(Helpers::class);
+
+        if($token){
+        $em = $this->getDoctrine()->getManager();
+        $userRepo = $em->getRepository("BackendBundle:User");
+        $users = $userRepo->findAll();
+
+         return $helpers->json(array(
+             'status' =>  'success',
+             'users'  =>  $users
+         ));
+     }else{
+            return $helpers->json(array(
+                'status' => 'error',
+                'code' => 400,
+                'data' => 'authentification non valide '
+            ));
+     }
+
     }
 
     public function loginAction(Request $request)
@@ -42,6 +60,7 @@ class DefaultController extends Controller
             $params = json_decode($json);
             $email = (isset($params->email)) ? $params->email : null;
             $password = (isset($params->password)) ? $params->password : null;
+            $getHash = (isset($params->getHash)) ? $params->getHash : null;
 
             $emailConstraint = new Assert\Email();
             $emailConstraint->message = "Cet email n'est pas valide";
@@ -51,12 +70,13 @@ class DefaultController extends Controller
             if( $email && count($validate_email) == 0 && $password){
 
                 $jwt_auth = $this->get(JwtAuth::class);
-                $signup =  $jwt_auth->signup($email,$password);
-                $data = array(
-                    'status' => 'success',
-                    'data'   => 'Email correct',
-                    'signup' => $signup
-                );
+
+                if($getHash == null || $getHash == false){
+                    $signup =  $jwt_auth->signup($email,$password);
+                }else{
+                    $signup =  $jwt_auth->signup($email,$password,true);
+                }
+                return $this->json($signup);
             }else{
                 $data = array(
                     'status' => 'error',
