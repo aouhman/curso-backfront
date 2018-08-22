@@ -60,7 +60,7 @@ class JwtAuth{
     }
 
     /**
-     * @param string $jwt var $JWT représenter la valeur de token déja passer en parametre pour recuprer l'object
+     * @param string $jwt var $JWT reprÃ©senter la valeur de token dÃ©ja passer en parametre pour recuprer l'object
      * @param bool   $getIdentity pour recuprer object connecter a
      **@return bool|object
      */
