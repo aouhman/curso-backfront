@@ -71,10 +71,12 @@ class DefaultController extends Controller
 
                 $jwt_auth = $this->get(JwtAuth::class);
 
+                $pws = hash("sha256",$password);
+
                 if (!$getHash) {
-                    $signup = $jwt_auth->signup($email, $password);
+                    $signup = $jwt_auth->signup($email, $pws);
                 } else {
-                    $signup = $jwt_auth->signup($email, $password, true);
+                    $signup = $jwt_auth->signup($email, $pws, true);
                 }
                 return $this->json($signup);
             } else {

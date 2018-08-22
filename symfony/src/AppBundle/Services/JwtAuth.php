@@ -17,7 +17,7 @@ class JwtAuth{
     public function __construct($manager)
     {
         $this->manager = $manager;
-        $this->key = "abdssasatetst123UnexpectedValueExceptionUnexpectedValueException";
+        $this->key = "58c437a543414771a52fc1460d3028cc730d9639RVV1";
     }
 
     public function signup($email,$password,$getHash=null){
