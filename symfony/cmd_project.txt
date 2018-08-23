@@ -1,6 +1,6 @@
 Commande pour cree une dans Symfony 3 avec des fichiers config format yml
         php bin/console generate:bundle --namespace=BackendBundle --format=yml
-creation des entities a partir d'une BDD existe d�ja
+creation des entities a partir d'une BDD existe d�ja
 Cmd 1
         php bin/console doctrine:mapping:import --force AppBundle xml
 pour creer les fichier de configuration doctrine a partir la BDD
@@ -10,3 +10,5 @@ Cmd 2
 
 Creation des entities a partir des fichier generer (Cmd 1) existe dans le chemine XxxBundle\Resources\config\doctrine
 avec les Relation exitant dans BDD
+
+NB il faut écrire les requêtes en minuscule

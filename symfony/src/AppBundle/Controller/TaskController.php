@@ -154,7 +154,6 @@ class TaskController extends Controller
       $authCheck = $jwtAuth->checkToken($token);
 
       if($authCheck){
-           $idenetity = $jwtAuth->checkToken($token,true);
            $em = $this->getDoctrine()->getManager();
            $task = $em->getRepository("BackendBundle:Task")->find($id);
 
@@ -171,6 +170,73 @@ class TaskController extends Controller
               'msg' => 'autorisation non valide'
           );
       }
+        return $helpers->json($data);
+    }
+
+    public function  searchAction(Request $request,$search = null){
+        $helpers = $this->get(Helpers::class);
+        $jwtAuth = $this->get(JwtAuth::class );
+
+        $token = $request->get("authorization", null);
+        $authCheck = $jwtAuth->checkToken($token);
+        if($authCheck){
+            $idenetity = $jwtAuth->checkToken($token,true);
+            $em = $this->getDoctrine()->getManager();
+            //filter
+
+            $filter = $request->get('filter',null);
+            if(empty($filter)){
+                $filter=null;
+            }elseif($filter==1){
+                $filter="new";
+            }elseif($filter==2){
+                $filter="todo";
+            }else{
+                $filter="finished";
+            }
+            //order
+            $order = $request->get("order",null);
+            if(empty($order)|| $order ==2){
+                $order = "DESC";
+            }else{
+                $order = "ASC";
+            }
+
+            if($search){
+                 $dql = "select t from BackendBundle:Task t where t.user = $idenetity->sub and (t.title like :search or t.description like :search) ";
+            }else{
+                $dql = "select t from BackendBundle:Task t
+                        where t.user = $idenetity->sub";
+                if($filter){
+                    $dql .= " and t.status = :filter";
+                }
+
+            }
+            // Set order
+            $dql .= " order by t.id $order";
+            $query = $em->createQuery($dql);
+
+            if($filter)
+                $query->setParameter("filter","$filter");
+            if(!empty($search)){
+                $query->setParameter("search","%$search%");
+            }
+            $tasks = $query->getResult();
+
+
+            $data = array(
+                'status' => 'Success',
+                'code'   => 400,
+                'data'   => $tasks
+            );
+
+        }else{
+            $data = array(
+                'status' => 'Error',
+                'code'   => 400,
+                'msg'    => 'autorisation non valide'
+            );
+        }
         return $helpers->json($data);
     }
 }
