@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Services\Helpers;
 use AppBundle\Services\JwtAuth;
-use BackendBundle\Entity\User;
 
 class TaskController extends Controller
 {
@@ -92,11 +91,6 @@ class TaskController extends Controller
                         "msg"    => "Task not created"
                     );
                 }
-
-
-
-
-
             }
 
 
@@ -111,77 +105,73 @@ class TaskController extends Controller
 
     }
 
-    /*
-    public function editAction(Request $request)
-    {
-        $helpers = $this->get(Helpers::class);
+
+
+
+    public function tasksAction(Request $request){
+        $helpers  = $this->get(Helpers::class);
         $jwtAuth = $this->get(JwtAuth::class);
 
-        $json = $request->get("json", null);
         $token = $request->get("authorization", null);
         $authCheck = $jwtAuth->checkToken($token);
 
-        $data = array(
-            "status" => "Error",
-            "code" => 400,
-            "msg" => "Vous ne disposez pas des autorisations nécessaires pour effectuer cette opération"
-        );
+        if($authCheck){
+            $identity = $jwtAuth->checkToken($token,true);
 
-        if($authCheck) {
+            $em = $this->getDoctrine()->getManager();
 
-            if ($json) {
-                $params = json_decode($json, null);
-
-                $email = (isset($params->email)) ? $params->email : null;
-                $name = (isset($params->name)) ? $params->name : null;
-                $password = (isset($params->password)) ? $params->password : null;
-                $surname = (isset($params->surname)) ? $params->surname : null;
-
-                $emailConstraint = new Assert\Email();
-                $emailConstraint->message = "Cet email n'est pas valide";
-                $validate_email = $this->get('validator')->validate($email, $emailConstraint);
-
-                $em = $this->getDoctrine()->getManager();
-                //find user to edit $user
-                $identity = $jwtAuth->checkToken($token,true);
-                $user = $em->getRepository('BackendBundle:User')->findOneBy(array('id' => $identity->sub));
-
-                if ($name && $surname && $email && count($validate_email) == 0 && $user) {
-
-                    $user->setName($name);
-                    $user->setSurname($surname);
-                    if($password){
-                        $pws = hash("sha256",$password);
-                        $user->setPassword($pws);
-                    }
-                    $em->persist($user);
-                    $em->flush();
-
-                    $data = array(
-                        "status" => "Success",
-                        "code" => 200,
-                        "msg" => "Utilisateur pour modifier avec success"
-                    );
-
-                }else{
-                    $data = array(
-                        "status" => "Error",
-                        "code" => 200,
-                        "msg" => "Impossible de modifier cet utilisateur"
-                    );
-                }
-            }
+            $sql = "SELECT t FROM BackendBundle:Task t ORDER BY t.id DESC";
+            $query = $em->createQuery($sql);
+            $page = $request->query->getInt('page',1);
+            $paginator = $this->get('knp_paginator');
+            $items_per_page = 10;
+            $pagination = $paginator->paginate($query, $page,$items_per_page);
+            $total_itemes_count = $pagination->getTotalItemCount();
+            $data = array(
+                'status' => 'Success',
+                'code' => 200,
+                'total_itemes_count' => $total_itemes_count,
+                'page_actual' => $page,
+                'items_per_page' => $items_per_page,
+                'total_pages' => ceil($total_itemes_count/$items_per_page),
+                'data' => $pagination
+            );
         }else{
             $data = array(
-                "status" => "Error",
-                "code" => 200,
-                "msg" => "Vous n'êtes pas autorisé à modifier un utilisateur"
-            );
+                'status' => 'Error',
+                  'code' => 400,
+                   'msg' => 'autorisation non valide'
+             );
         }
+         return $helpers->json($data);
+    }
 
+    public function taskAction(Request $request,$id ){
+      $helpers = $this->get(Helpers::class);
+      $jwtAuth = $this->get(JwtAuth::class);
 
+      $token = $request->get("authorization", null);
+      $authCheck = $jwtAuth->checkToken($token);
+
+      if($authCheck){
+           $idenetity = $jwtAuth->checkToken($token,true);
+           $em = $this->getDoctrine()->getManager();
+           $task = $em->getRepository("BackendBundle:Task")->find($id);
+
+           $data = array(
+              'status' => 'Succes',
+              'code' => 400,
+              'msg' => '',
+              'data' => $task
+          );
+      }else{
+          $data = array(
+              'status' => 'Error',
+              'code' => 400,
+              'msg' => 'autorisation non valide'
+          );
+      }
         return $helpers->json($data);
     }
-    */
 }
 

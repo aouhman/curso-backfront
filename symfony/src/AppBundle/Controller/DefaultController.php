@@ -24,9 +24,9 @@ class DefaultController extends Controller
     {
         $token = $request->get("authorization", null);
         $helpers = $this->get(Helpers::class);
-        $jwt_auth = $this->get(JwtAuth::class);
+        $jwtAuth = $this->get(JwtAuth::class);
 
-        if ($token && $jwt_auth->checkToken($token)) {
+        if ($token && $jwtAuth->checkToken($token)) {
             $em = $this->getDoctrine()->getManager();
             $userRepo = $em->getRepository("BackendBundle:User");
             $users = $userRepo->findAll();
@@ -69,14 +69,13 @@ class DefaultController extends Controller
 
             if ($email && count($validate_email) == 0 && $password) {
 
-                $jwt_auth = $this->get(JwtAuth::class);
+                $jwtAuth = $this->get(JwtAuth::class);
 
                 $pws = hash("sha256",$password);
-
                 if (!$getHash) {
-                    $signup = $jwt_auth->signup($email, $pws);
+                    $signup = $jwtAuth->signup($email, $pws);
                 } else {
-                    $signup = $jwt_auth->signup($email, $pws, true);
+                    $signup = $jwtAuth->signup($email, $pws, true);
                 }
                 return $this->json($signup);
             } else {
