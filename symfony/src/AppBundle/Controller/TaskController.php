@@ -120,8 +120,8 @@ class TaskController extends Controller
 
             $em = $this->getDoctrine()->getManager();
 
-            $sql = "SELECT t FROM BackendBundle:Task t ORDER BY t.id DESC";
-            $query = $em->createQuery($sql);
+            $dql = "SELECT t FROM BackendBundle:Task t WHERE t.user= {$identity->sub} ORDER BY t.id DESC";
+            $query = $em->createQuery($dql);
             $page = $request->query->getInt('page',1);
             $paginator = $this->get('knp_paginator');
             $items_per_page = 10;
