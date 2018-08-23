@@ -13,7 +13,7 @@ use BackendBundle\Entity\User;
 class TaskController extends Controller
 {
 
-    public function newAction(Request $request)
+    public function newAction(Request $request ,$id =null )
     {
         $helpers  = $this->get(Helpers::class);
         $jwtAuth = $this->get(JwtAuth::class);
@@ -38,25 +38,56 @@ class TaskController extends Controller
                 if($user_id && $title && $status){
                     $em = $this->getDoctrine()->getManager();
                     $user = $em->getRepository('BackendBundle:User')->find($identity->sub);
-                    $task = new Task();
-                    $task->setTitle($title);
-                    $task->setDescription($description);
-                    $task->setStatus($status);
-                    $task->setCreatedAt($createdAt);
-                    $task->setUpdatedAt($createdAt);
-                    $task->setUser($user);
+                    if($id){
+                        $task =  $em->getRepository('BackendBundle:Task')->find($id);
+                        if( $task && isset($identity->sub) && $identity->sub == $task->getUser()->getId()){
+                            $task->setTitle($title);
+                            $task->setDescription($description);
+                            $task->setStatus($status);
+                            $task->setUpdatedAt($createdAt);
 
-                    $em->persist($task);
-                    $em->flush();
+                            $em->persist($task);
+                            $em->flush();
 
-                    $data = array(
-                        "status" => "Success",
-                        "code"   => 200,
-                        "msg"    => "task created"
-                    );
+                            $data = array(
+                                "status" => "Success",
+                                "code"   => 200,
+                                "msg"    => "Tâche bien modifié",
+                                "data"   => $task
+                            );
+
+                        }else{
+                            $data = array(
+                                "status" => "Error",
+                                "code"   => 200,
+                                "msg"    => "Vous n'avez pas l'autorisation de modifier une tâche déjà crée par un autre utilisateur"
+                            );
+
+                        }
+                    }else{
+                        $task = new Task();
+                        $task->setTitle($title);
+                        $task->setDescription($description);
+                        $task->setStatus($status);
+                        $task->setCreatedAt($createdAt);
+                        $task->setUpdatedAt($createdAt);
+                        $task->setUser($user);
+
+                        $em->persist($task);
+                        $em->flush();
+
+                        $data = array(
+                            "status" => "Success",
+                            "code"   => 200,
+                            "data"    => $task
+                        );
+
+                    }
+
+
                 }else{
                     $data = array(
-                        "status" => "Success",
+                        "status" => "Error",
                         "code"   => 400,
                         "msg"    => "Task not created"
                     );
@@ -68,11 +99,7 @@ class TaskController extends Controller
 
             }
 
-            $data = array(
-                "status" => "Success",
-                "code"   => 200,
-                "msg"    => "Message"
-            );
+
         }else{
             $data = array(
                 "status" => "Error",
