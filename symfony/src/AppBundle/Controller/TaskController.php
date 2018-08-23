@@ -239,5 +239,48 @@ class TaskController extends Controller
         }
         return $helpers->json($data);
     }
+
+    public function removeAction(Request $request,$id=null){
+        $helpers  = $this->get(Helpers::class);
+        $jwtAuth = $this->get(JwtAuth::class);
+
+        $token = $request->get("authorization", null);
+        $authCheck = $jwtAuth->checkToken($token);
+        $data = array();
+        if($authCheck){
+            $data = array(
+                "status" => "Error",
+                "code"   => 400,
+                "msg"    => "tache introuvable"
+            );
+
+                    $em = $this->getDoctrine()->getManager();
+                    if($id){
+                        $task =  $em->getRepository('BackendBundle:Task')->find($id);
+                        $identity = $jwtAuth->checkToken($token,true);
+                        if( $task && $identity->sub == $task->getUser()->getId()){
+
+                            $em->remove($task);
+                            $em->flush();
+
+                            $data = array(
+                                "status" => "Success",
+                                "code"   => 200,
+                                "msg"    => "Tâche bien supprimé"
+                            );
+
+                        }else{
+                            $data = array(
+                                "status" => "Error",
+                                "code"   => 200,
+                                "msg"    => "Vous n'avez pas l'autorisation de supprimé une tâche déjà crée par un autre utilisateur"
+                            );
+
+                        }
+                }
+            }
+        return $helpers->json($data);
+
+    }
 }
 
