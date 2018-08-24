@@ -3,14 +3,19 @@
     <form #loginForm="ngForm" (ngSubmit)="onSubmit()" class="col-md-4 no-padding">
         <p>
             <label>Email:
-            <input type="email" class="form-control" name="email">
+            <input type="email" class="form-control" name="email"  name="email" #email="ngModel" [(ngModel)]="user.email" required>
             </label>
+            <span *ngIf="!email.valid && email.touched">Email non valide</span>
         </p>
         <p>
             <label>Password:
-            <input type="password" class="form-control" name="password">
+                <input type="password" class="form-control" name="password" #password="ngModel"[(ngModel)]="user.password" required>
             </label>
-            <input type="submit" value="Entrer" class="btn btn-primary">
+            <span *ngIf="!password.valid && password.touched">Password non valide</span>
+        </p>
+        <p>
+            <input type="submit" value="Entrer" class="btn btn-primary"
+             [disabled]="!loginForm.form.valid"       >
         </p>
     </form>
 

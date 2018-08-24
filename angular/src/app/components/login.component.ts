@@ -13,15 +13,24 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 })
 export class LoginComponent implements OnInit{
      public title: string;
-
+     public  user;
      constructor(
      //    private _route: AcrivatedRoute,
-      //   private _router: Router
+        private _router: Router
      ){
-         this.title ='Componente de login';
+         this.title = 'Login';
+         this.user  = {
+             "email"    : "",
+             "password" : "",
+             "gethash"  : "false"
+         }
      }
     ngOnInit(){
         console.log('login Compononant');
+    }
+
+    onSubmit(){
+        console.log(this.user)
     }
 
 }
