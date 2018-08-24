@@ -18,3 +18,5 @@ Frontend
 instlation de angular cmd
 >npm install -g @angular/cli
 >ng new angular commande pour creer un projet angular
+npm srart pour demmarer projet angular
+npm update pour faire la maj au repository ajouter des nouvelles
