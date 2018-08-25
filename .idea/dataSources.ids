@@ -1,34 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
   <data-source name="MySQL - curso_backfront@localhost" uuid="77ea3685-de15-4244-bb4a-964167b62b0a">
-    <database-info product="MySQL" version="5.6.21" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.44 ( Revision: b3cda4f864902ffdde495b9df93937c3e20009be )">
-      <extra-name-characters>#@</extra-name-characters>
-      <identifier-quote-string>`</identifier-quote-string>
-    </database-info>
-    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
-    <schema name="" catalog="curso_backfront"/>
-    <table name="tasks" schema="" catalog="curso_backfront" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="title" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="description" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
-      <column name="status" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12"/>
-      <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="updated_at" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="fk_tasks_users" columns="user_id" ref-table="users" ref-schema="" ref-catalog="curso_backfront" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="fk_tasks_users" unique="false" columns="user_id"/>
-    </table>
-    <table name="users" schema="" catalog="curso_backfront" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="role" sqlType="VARCHAR" precision="20" scale="0" nullable="true" jdbcType="12"/>
-      <column name="name" sqlType="VARCHAR" precision="180" scale="0" nullable="true" jdbcType="12"/>
-      <column name="surname" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="email" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="password" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <exported-key name="fk_tasks_users" table="tasks" schema="" catalog="curso_backfront" columns="user_id"/>
-    </table>
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
   </data-source>
 </component>

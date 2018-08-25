@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login.component';
 import { RegisterComponent } from './components/register.component';
 import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 @NgModule({
     declarations: [
         AppComponent,
@@ -17,6 +18,7 @@ import { FormsModule } from '@angular/forms';
     imports: [
         BrowserModule,
         routing,
+        HttpModule,
         FormsModule
     ],
     providers: [
