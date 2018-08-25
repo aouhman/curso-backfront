@@ -17,7 +17,7 @@ class UserController extends Controller
         $helpers = $this->get(Helpers::class);
         $json = $request->get("json", null);
         $data = array(
-            "status" => "Error",
+            "status" => "error",
             "code" => 400,
             "msg" => "Veuillez remplir tous les champs obligatoires"
         );
@@ -52,14 +52,14 @@ class UserController extends Controller
 
                 if ($issetUser) {
                     $data = array(
-                        "status" => "Error",
+                        "status" => "error",
                         "code" => 200,
                         "msg" => "Utilisateur existe déja"
                     );
 
                 } else {
                     $data = array(
-                        "status" => "Success",
+                        "status" => "success",
                         "code" => 200,
                         "msg" => "Utilisateur bien été crée"
                     );
@@ -85,7 +85,7 @@ class UserController extends Controller
         $authCheck = $jwtAuth->checkToken($token);
 
         $data = array(
-            "status" => "Error",
+            "status" => "error",
             "code" => 400,
             "msg" => "Vous ne disposez pas des autorisations nécessaires pour effectuer cette opération"
         );
@@ -121,14 +121,14 @@ class UserController extends Controller
                     $em->flush();
 
                     $data = array(
-                        "status" => "Success",
+                        "status" => "success",
                         "code" => 200,
                         "msg" => "Utilisateur pour modifier avec success"
                     );
 
                 }else{
                     $data = array(
-                        "status" => "Error",
+                        "status" => "error",
                         "code" => 200,
                         "msg" => "Impossible de modifier cet utilisateur"
                     );
@@ -136,7 +136,7 @@ class UserController extends Controller
             }
         }else{
             $data = array(
-                "status" => "Error",
+                "status" => "error",
                 "code" => 200,
                 "msg" => "Vous n'êtes pas autorisé à modifier un utilisateur"
             );

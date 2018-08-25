@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit{
                                 if(!this.identity.status){
 
                                     localStorage.setItem('token',JSON.stringify(this.token));
-                                    redirectIfIdentity()
+                                    this.redirectIfIdentity()
                                 }
                             }
                         },

@@ -49,7 +49,7 @@ class TaskController extends Controller
                             $em->flush();
 
                             $data = array(
-                                "status" => "Success",
+                                "status" => "success",
                                 "code"   => 200,
                                 "msg"    => "Tâche bien modifié",
                                 "data"   => $task
@@ -57,7 +57,7 @@ class TaskController extends Controller
 
                         }else{
                             $data = array(
-                                "status" => "Error",
+                                "status" => "error",
                                 "code"   => 200,
                                 "msg"    => "Vous n'avez pas l'autorisation de modifier une tâche déjà crée par un autre utilisateur"
                             );
@@ -76,7 +76,7 @@ class TaskController extends Controller
                         $em->flush();
 
                         $data = array(
-                            "status" => "Success",
+                            "status" => "success",
                             "code"   => 200,
                             "data"    => $task
                         );
@@ -86,7 +86,7 @@ class TaskController extends Controller
 
                 }else{
                     $data = array(
-                        "status" => "Error",
+                        "status" => "error",
                         "code"   => 400,
                         "msg"    => "Task not created"
                     );
@@ -96,7 +96,7 @@ class TaskController extends Controller
 
         }else{
             $data = array(
-                "status" => "Error",
+                "status" => "error",
                 "code"   => 200,
                 "msg"    => "Message"
             );
@@ -128,7 +128,7 @@ class TaskController extends Controller
             $pagination = $paginator->paginate($query, $page,$items_per_page);
             $total_itemes_count = $pagination->getTotalItemCount();
             $data = array(
-                'status' => 'Success',
+                'status' => 'success',
                 'code' => 200,
                 'total_itemes_count' => $total_itemes_count,
                 'page_actual' => $page,
@@ -138,7 +138,7 @@ class TaskController extends Controller
             );
         }else{
             $data = array(
-                'status' => 'Error',
+                'status' => 'error',
                   'code' => 400,
                    'msg' => 'autorisation non valide'
              );
@@ -158,14 +158,14 @@ class TaskController extends Controller
            $task = $em->getRepository("BackendBundle:Task")->find($id);
 
            $data = array(
-              'status' => 'Succes',
+              'status' => 'success',
               'code' => 400,
               'msg' => '',
               'data' => $task
           );
       }else{
           $data = array(
-              'status' => 'Error',
+              'status' => 'error',
               'code' => 400,
               'msg' => 'autorisation non valide'
           );
@@ -225,14 +225,14 @@ class TaskController extends Controller
 
 
             $data = array(
-                'status' => 'Success',
+                'status' => 'success',
                 'code'   => 400,
                 'data'   => $tasks
             );
 
         }else{
             $data = array(
-                'status' => 'Error',
+                'status' => 'error',
                 'code'   => 400,
                 'msg'    => 'autorisation non valide'
             );
@@ -249,7 +249,7 @@ class TaskController extends Controller
         $data = array();
         if($authCheck){
             $data = array(
-                "status" => "Error",
+                "status" => "error",
                 "code"   => 400,
                 "msg"    => "tache introuvable"
             );
@@ -264,14 +264,14 @@ class TaskController extends Controller
                             $em->flush();
 
                             $data = array(
-                                "status" => "Success",
+                                "status" => "success",
                                 "code"   => 200,
                                 "msg"    => "Tâche bien supprimé"
                             );
 
                         }else{
                             $data = array(
-                                "status" => "Error",
+                                "status" => "error",
                                 "code"   => 200,
                                 "msg"    => "Vous n'avez pas l'autorisation de supprimé une tâche déjà crée par un autre utilisateur"
                             );
