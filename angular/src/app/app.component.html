@@ -24,30 +24,33 @@
                 </li>
                 <li>
                     <a [routerLink]="['/']">
-                 <span class="glyphicon glyphicon-home" aria-hidden="true">
-                     Home
-                 </span>
-                    </a>
-                </li>
-                <li>
-                    <a [routerLink]="['/']">
                  <span class="glyphicon glyphicon-plus" aria-hidden="true">
-                     Home
-                 </span>
-                    </a>
-                </li>
-                <li>
-                    <a [routerLink]="['/']">
-                 <span class="glyphicon glyphicon-out" aria-hidden="true">
-                     Deconnecter
+                     new
                  </span>
                     </a>
                 </li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right" *ngIf="!identity">
                 <li><a [routerLink]="['/login']">Login</a></li>
                 <li><a [routerLink]="['/register']">Register</a></li>
             </ul>
+
+            <ul class="nav navbar-nav navbar-right" *ngIf="identity && identity.sub">
+            <li>
+                <a [routerLink]="['/']" >
+                 <span class="glyphicon glyphicon-cog" glyphicon-aria-hidden="true">
+                     edit
+                 </span>
+                </a>
+            </li>
+            <li>
+                <a [routerLink]="['/login',1]" >
+                 <span class="glyphicon glyphicon-out" aria-hidden="true">
+                     Deconnecter
+                 </span>
+                </a>
+            </li>
+                </ul>
         </div>
 
     </div>

@@ -9,8 +9,10 @@ import { UserService } from '../services/user.service';
     providers: [UserService]
 })
 export class LoginComponent implements OnInit{
-     public title: string;
+     public  title: string;
      public  user;
+     public  token;
+     public  identity;
      constructor(
          private _route: ActivatedRoute,
          private _router: Router,
@@ -24,7 +26,27 @@ export class LoginComponent implements OnInit{
          }
      }
     ngOnInit(){
-        console.log(JSON.parse(localStorage.getItem('identity')));
+            this.logout();
+            this.redirectIfIdentity() ;
+    }
+    logout(){
+        this._route.params.forEach((params: Params)=>{
+            let logout = +params['id'];
+            if(logout == 1){
+                localStorage.removeItem('identity');
+                localStorage.removeItem('token');
+                this.identity= null;
+                this.token= null;
+                window.location.href = '/login';
+            }
+        });
+    }
+
+    redirectIfIdentity(){
+        let identity = this._userService.getIdentity();
+        if(identity != null && identity.sub){
+            this._router.navigate(['/']);
+        }
     }
 
     onSubmit(){
@@ -44,7 +66,9 @@ export class LoginComponent implements OnInit{
                                 console.log("Error")
                             }{
                                 if(!this.identity.status){
+
                                     localStorage.setItem('token',JSON.stringify(this.token));
+                                    redirectIfIdentity()
                                 }
                             }
                         },

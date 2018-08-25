@@ -15,8 +15,8 @@ export class RegisterComponent implements OnInit{
      public title: string;
 
      constructor(
-   //      private _route: AcrivatedRoute,
-   //      private _router: Router
+     private _route: ActivatedRoute,
+     private _router: Router
      ){
          this.title ='Component de register';
      }

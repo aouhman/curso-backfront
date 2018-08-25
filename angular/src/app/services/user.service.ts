@@ -20,6 +20,23 @@ export  class UserService{
 
         let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
         return this._http.post(this.url+"/login",params,{headers:headers}).map(res => res.json());
-
+    }
+    getIdentity(){
+        let identity = JSON.parse(localStorage.getItem('identity'));
+          if(identity != "undefined"){
+              this.identity = identity
+          }else{
+              this.identity = null
+          }
+        return identity;
+    }
+    getToken(){
+        let token = JSON.parse(localStorage.getItem('token'));
+          if(token != "undefined"){
+              this.token = token
+          }else{
+              this.token = null
+          }
+        return token;
     }
 }

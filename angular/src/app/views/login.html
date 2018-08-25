@@ -1,10 +1,10 @@
 <div class="col-md-12">
     <h3>{{title}}</h3>
-    <div class="identity-alert alert alert-success" *ngif="identity && identity.sub">
+    <div class="identity-alert alert alert-success" *ngIf="identity && identity.sub">
         Bienvenu {{identity.email}}
     </div>
-    <div class="identity-alert alert alert-success" *ngif="identity && identity.data">
-         {{identity.data.msg}}
+    <div class="identity-alert alert alert-success" *ngIf="identity && identity.data">
+         {{identity.email}}
     </div>
     <form #loginForm="ngForm" (ngSubmit)="onSubmit()" class="col-md-4 no-padding">
         <p>
