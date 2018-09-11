@@ -1,4 +1,3 @@
-
 import { Component, OnInit} from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UserService } from '../services/user.service';
@@ -22,7 +21,7 @@ export class LoginComponent implements OnInit{
          this.user  = {
              "email"    : "",
              "password" : "",
-             "gethash"  : "true"
+             "getHash"  : "true"
          }
      }
     ngOnInit(){
@@ -53,7 +52,7 @@ export class LoginComponent implements OnInit{
         this._userService.signup(this.user).subscribe(
             response => {
                 this.identity = response;
-                if(this.identity.lenght <=1) {
+                if(this.identity.length <=1) {
                     console.log("Error")
                 }{
                     if(!this.identity.status){
@@ -62,7 +61,7 @@ export class LoginComponent implements OnInit{
                            this._userService.signup(this.user).subscribe(
                             response => {
                             this.token = response;
-                            if(this.identity.lenght <=1) {
+                            if(this.identity.length <=1) {
                                 console.log("Error")
                             }{
                                 if(!this.identity.status){

@@ -28,10 +28,7 @@ class JwtAuth{
 
                           )
                       );
-         $signup = false;
-         if(is_object($user)){
-             $signup = true;
-         }
+         $signup = (is_object($user))? true : false;
          if($signup){
              $token= array(
                "sub" => $user->getId() ,
@@ -44,11 +41,8 @@ class JwtAuth{
 
               $jwt = JWT::encode($token,$this->key,'HS256');
               $decoded = JWT::decode($jwt,$this->key,array('HS256'));
-              if(!$getHash){
-                  $data = $jwt;
-              }else{
-                  $data = $decoded;
-              }
+
+              $data = ($getHash == null)? $jwt : $decoded ;
 
          } else{
              $data = array(
