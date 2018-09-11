@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit{
     redirectIfIdentity(){
         let identity = this._userService.getIdentity();
         if(identity != null && identity.sub){
-            this._router.navigate(['/']);
+            window.location.href = "/";
         }
     }
 
@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit{
                 }{
                     if(!this.identity.status){
                         localStorage.setItem('identity',JSON.stringify(this.identity));
-                           this.user.getHash = 'false';
+                           this.user.getHash = null;
                            this._userService.signup(this.user).subscribe(
                             response => {
                             this.token = response;

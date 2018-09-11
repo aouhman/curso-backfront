@@ -23,7 +23,7 @@
                     </a>
                 </li>
                 <li>
-                    <a [routerLink]="['/']">
+                    <a [routerLink]="['/new-task']">
                  <span class="glyphicon glyphicon-plus" aria-hidden="true">
                      new
                  </span>
@@ -37,7 +37,7 @@
 
             <ul class="nav navbar-nav navbar-right" *ngIf="identity && identity.sub">
             <li>
-                <a [routerLink]="['/']" >
+                <a [routerLink]="['/user-edit']" >
                  <span class="glyphicon glyphicon-cog" glyphicon-aria-hidden="true">
                      edit
                  </span>

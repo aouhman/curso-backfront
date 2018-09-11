@@ -1,0 +1,37 @@
+<div class="col-md-12">
+    <h3>{{pageTitle}}</h3>
+    <div class="alert alert-success" *ngIf="statusTask == 'success'">
+      Tache ajouter
+    </div>
+    <div class="alert alert-danger" *ngIf="statusTask == 'error'">
+        Tache non ajouter
+    </div>
+    <form #taskNewForm="ngForm" (ngSubmit)="onSubmit()" class="col-md-7 no-padding">
+        <p>
+            <label>Title
+                <input type="text" class="form-control" name="title" #title="ngModel" [(ngModel)]="task.title" required>
+            </label>
+            <span *ngIf="!title.valid && title.touched">Le titre est obligatoire</span>
+        </p>
+
+        <p>
+            <label>Description
+                <textarea class="form-control" name="description" required="required" #description="ngModel" [(ngModel)]="task.description"></textarea>
+            </label>
+            <span *ngIf="!description.valid && description.touched"> description est obligatoire</span>
+        </p>
+
+        <p>
+            <label>Status
+                <select  class="form-control" name="status" #status="ngModel" [(ngModel)]="task.status" >
+                    <option value="new">new</option>
+                    <option value="todo">todo</option>
+                    <option value="finished">finished</option>
+                </select>
+            </label>
+        </p>
+        <input type="submit" value="{{pageTitle}}" class="btn btn-success" [disabled]="!taskNewForm.form.valid">
+
+    </form>
+
+</div>

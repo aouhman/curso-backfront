@@ -49,4 +49,15 @@ export  class UserService{
                          .map(res => res.json());
 
     }
+
+    update_user(user_to_update){
+        let json    = JSON.stringify(user_to_update);
+
+        let params  = "json="+json+ "&authorization=" + this.getToken();
+        let headers = new Headers({'Content-type':'application/x-www-form-urlencoded'});
+
+        return this._http.post(this.url+'/edit',params,{headers: headers})
+            .map(res => res.json());
+
+    }
 }
